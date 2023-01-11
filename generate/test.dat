@@ -1,0 +1,12 @@
+data;
+
+set waypoints := 1 2;
+param wp :=
+1 3
+2 2;
+
+param NW := 2;
+param N := 15;
+param a_max := 5.0;
+param tol := 0.1;
+
