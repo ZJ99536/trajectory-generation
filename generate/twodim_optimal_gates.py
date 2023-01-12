@@ -281,17 +281,17 @@ if __name__ == "__main__":
     plt.title("Two Gates")
     plt.xlabel("Position x[m]")
     plt.ylabel("Position y[m]")
-    f = open("/home/zhoujin/rpg_time_optimal/my_time_optimal/gate.txt",'w')
+    f = open("/home/zhoujin/trajectory-generation/trajectory/gated.txt",'w')
     wpx = [1,1]
     wpy = [1,1]
-    for x0i in range(2):
-        for x1i in range(2):
-            for y0i in range(2):
-                for y1i in range(2):
-                    wpx[0] = 3 + x0i
-                    wpx[1] = 1 + x1i
-                    wpy[0] = 5 + y0i
-                    wpy[1] = 1 + y1i
+    for x0i in range(-2,2):
+        for x1i in range(-2,2):
+            for y0i in range(-2,2):
+                for y1i in range(-2,2):
+                    wpx[0] = 1.0 + x0i * 0.1
+                    wpx[1] = 2.0 + x1i * 0.1
+                    wpy[0] = 1.0 + y0i * 0.1
+                    wpy[1] = 2.0 + y1i * 0.1
             
                     plan = Planner(wpx,wpy)
                     x_sol, dt, N, NW, wpx, wpy = plan.solve()
@@ -302,13 +302,14 @@ if __name__ == "__main__":
                     for i in range(N+2):
                         s_x += [x_sol[2+i*(3*NW + 5)]]
                         s_y += [x_sol[3+i*(3*NW + 5)]]
-                        f.write(str(wpx[0])+','+str(wpx[1])+','+str(wpy[0])+','+str(wpy[1])+',')
+                        f.write(str(wpx[0]-x_sol[2+i*(3*NW + 5)])+','+str(wpy[0]-x_sol[2+i*(3*NW + 5)])+','+str(wpx[1]-x_sol[2+i*(3*NW + 5)])+','+str(wpy[1]-x_sol[2+i*(3*NW + 5)])+',')
                         f.write(str(x_sol[2+i*(3*NW + 5)])+',')
                         f.write(str(x_sol[3+i*(3*NW + 5)])+',')
-                        f.write(str(x_sol[4+i*(3*NW + 5)])+',')
-                        f.write(str(x_sol[5+i*(3*NW + 5)])+',')
                         f.write(str(x_sol[6+i*(3*NW + 5)])+',')
                         f.write(str(x_sol[7+i*(3*NW + 5)])+',')
+                        f.write(str(x_sol[4+i*(3*NW + 5)])+',')
+                        f.write(str(x_sol[5+i*(3*NW + 5)]))
+                        
                         f.write('\n')
                     
                     plt.plot(s_x, s_y)

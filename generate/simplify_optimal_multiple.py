@@ -238,7 +238,7 @@ if __name__ == "__main__":
     # for i in range(N+2):
     #     s_x += [x_sol[2+i*3*(NW + 1)]]
 
-    f = open("/home/zhoujin/rpg_time_optimal/my_time_optimal/gate.txt",'w')
+    f = open("/home/zhoujin/trajectory-generation/trajectory/gate1.txt",'w')
     wp = [1,1,1,1]
     for x0i in range(2):
         for x1i in range(2):
