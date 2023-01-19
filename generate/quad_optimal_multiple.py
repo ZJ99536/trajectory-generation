@@ -10,27 +10,27 @@ import matplotlib.pyplot as plt
 class Planner:
     def __init__(self):
         ## changeable
-        self.N = 50
+        self.N = 60
         self.NX = 1
         # self.a_max = 5
-        self.wpx = [4.0, 8.0]
-        self.wpy = [0.0, 0.0]
-        self.wpz = [2.0, 2.0]
+        self.wpx = [1.0, 2.0]
+        self.wpy = [6.0, 4.0]
+        self.wpz = [3.0, 2.0]
         # self.wpx = [0.0]
         # self.wpy = [4.0]
         # self.wpz = [2.0]
         self.vel_guess = 3.0
-        self.tol = 0.25
+        self.tol = 0.2
         self.gravity = 9.81
         self.m = 1
         self.l = 1
         ## self.I
         self.ctau = 0.5
-        self.T_max = 3.0
+        self.T_max = 3.7
         self.T_min = 0
 
         self.NW = len(self.wpx)
-        self.dis = ((self.wpx[0])**2 + (self.wpy[0])**2 + (self.wpz[0])**2)**0.5
+        self.dis = ((self.wpx[0])**2 + (self.wpy[0])**2 + (self.wpz[0]-2.0)**2)**0.5
         for i in range(len(self.wpx)-1):
             self.dis += ((self.wpx[i+1]-self.wpx[i])**2 + (self.wpy[i+1]-self.wpy[i])**2 + (self.wpz[i+1]-self.wpz[i])**2)**0.5
 
@@ -245,7 +245,7 @@ class Planner:
             x += [self.sy]
             xg += [0]
             x += [self.sz]
-            xg += [0]
+            xg += [2.0]
             x += [self.vx]
             xg += [0]
             x += [self.vy]
@@ -348,13 +348,13 @@ class Planner:
             g += [(self.wy - lwy)-(self.l/1.414*(-T[0]-T[1]+T[2]+T[3]) - (lwz*lwx - lwx*lwz)) * dt]
             lb += [0]
             ub += [0]
-            g += [(self.wx - lwx)-(self.ctau*(T[0]-T[1]+T[2]-T[3]) - (-lwy*lwx + lwx*lwy)) * dt]
+            g += [(self.wz - lwz)-(self.ctau*(T[0]-T[1]+T[2]-T[3]) - (-lwy*lwx + lwx*lwy)) * dt]
             lb += [0]
             ub += [0]
 
             g += [psi]
-            lb += [-0.08]
-            ub += [0.08]
+            lb += [-0.01]
+            ub += [0.01]
 
 
 
@@ -532,7 +532,7 @@ class Planner:
         g += [(self.wy - lwy)-(self.l/1.414*(-T[0]-T[1]+T[2]+T[3]) - (lwz*lwx - lwx*lwz)) * dt]
         lb += [0]
         ub += [0]
-        g += [(self.wx - lwx)-(self.ctau*(T[0]-T[1]+T[2]-T[3]) - (-lwy*lwx + lwx*lwy)) * dt]
+        g += [(self.wz - lwz)-(self.ctau*(T[0]-T[1]+T[2]-T[3]) - (-lwy*lwx + lwx*lwy)) * dt]
         lb += [0]
         ub += [0]
 
@@ -650,7 +650,7 @@ if __name__ == "__main__":
     plt.subplot(438)
     plt.plot(t_x, u_2)
     plt.subplot(439)
-    plt.plot(t_x, u)
+    plt.plot(t_x, u_3)
     # plt.subplot(43A)
     # plt.plot(t_x, u_4)
     # plt.subplot(43B)
