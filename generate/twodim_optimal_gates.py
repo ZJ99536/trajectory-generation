@@ -281,17 +281,17 @@ if __name__ == "__main__":
     plt.title("Two Gates")
     plt.xlabel("Position x[m]")
     plt.ylabel("Position y[m]")
-    f = open("/home/zhoujin/trajectory-generation/trajectory/gated.txt",'w')
+    f = open("/home/zhoujin/trajectory-generation/trajectory/gatedd.txt",'w')
     wpx = [1,1]
     wpy = [1,1]
     for x0i in range(-2,2):
         for x1i in range(-2,2):
             for y0i in range(-2,2):
                 for y1i in range(-2,2):
-                    wpx[0] = 1.0 + x0i * 0.1
-                    wpx[1] = 2.0 + x1i * 0.1
-                    wpy[0] = 1.0 + y0i * 0.1
-                    wpy[1] = 2.0 + y1i * 0.1
+                    wpx[0] = 2.0 + x0i * 0.1
+                    wpx[1] = 1.0 + x1i * 0.1
+                    wpy[0] = 2.0 + y0i * 0.1
+                    wpy[1] = 1.0 + y1i * 0.1
             
                     plan = Planner(wpx,wpy)
                     x_sol, dt, N, NW, wpx, wpy = plan.solve()

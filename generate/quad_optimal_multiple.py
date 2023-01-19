@@ -10,20 +10,23 @@ import matplotlib.pyplot as plt
 class Planner:
     def __init__(self):
         ## changeable
-        self.N = 60
+        self.N = 50
         self.NX = 1
-        self.a_max = 5
-        self.wpx = [2.0, 4.0]
-        self.wpy = [3.0, 1.0]
-        self.wpz = [1.0, 2.0]
+        # self.a_max = 5
+        self.wpx = [4.0, 8.0]
+        self.wpy = [0.0, 0.0]
+        self.wpz = [2.0, 2.0]
+        # self.wpx = [0.0]
+        # self.wpy = [4.0]
+        # self.wpz = [2.0]
         self.vel_guess = 3.0
-        self.tol = 0.3
+        self.tol = 0.25
         self.gravity = 9.81
         self.m = 1
         self.l = 1
         ## self.I
         self.ctau = 0.5
-        self.T_max = 5
+        self.T_max = 3.0
         self.T_min = 0
 
         self.NW = len(self.wpx)
@@ -90,10 +93,10 @@ class Planner:
         ub += [0]
         z_init = MX.sym('z_init', self.NX)
         x += [z_init]
-        xg += [0.5]
+        xg += [2.0]
         g += [z_init]
-        lb += [0.5]
-        ub += [0.5]
+        lb += [2.0]
+        ub += [2.0]
         vx_init = MX.sym('vx_init', self.NX)
         x += [vx_init]
         xg += [0]
@@ -349,6 +352,10 @@ class Planner:
             lb += [0]
             ub += [0]
 
+            g += [psi]
+            lb += [-0.08]
+            ub += [0.08]
+
 
 
         t_end = MX.sym('t_end', self.NX)
@@ -570,6 +577,9 @@ if __name__ == "__main__":
     u_3 = []
     u_4 = []
     u = []
+
+    f = open("/home/zhoujin/trajectory-generation/trajectory/quad.txt",'w')                   
+
     for i in range(N+2):
         s_x += [x_sol[2+i*(3*NW + 17)]]
         s_y += [x_sol[3+i*(3*NW + 17)]]
@@ -578,11 +588,40 @@ if __name__ == "__main__":
         v_x += [x_sol[5+i*(3*NW + 17)]]
         v_y += [x_sol[6+i*(3*NW + 17)]]
         v_z += [x_sol[7+i*(3*NW + 17)]]
-        u_1 += [x_sol[14+i*(3*NW + 17)]]
-        u_2 += [x_sol[15+i*(3*NW + 17)]]
-        u_3 += [x_sol[16+i*(3*NW + 17)]]
+        u_1 += [x_sol[8+i*(3*NW + 17)]]
+        u_2 += [x_sol[9+i*(3*NW + 17)]]
+        u_3 += [x_sol[10+i*(3*NW + 17)]]
         u_4 += [x_sol[17+i*(3*NW + 17)]]
         u += [x_sol[14+i*(3*NW + 17)]+x_sol[15+i*(3*NW + 17)]+x_sol[16+i*(3*NW + 17)]+x_sol[17+i*(3*NW + 17)]]
+
+        f.write(str(x_sol[1+i*(3*NW + 17)])+',') #t
+        f.write(str(x_sol[2+i*(3*NW + 17)])+',') #x
+        f.write(str(x_sol[3+i*(3*NW + 17)])+',') #y
+        f.write(str(x_sol[4+i*(3*NW + 17)])+',') #z
+        f.write(str(x_sol[8+i*(3*NW + 17)])+',')
+        f.write(str(x_sol[8+i*(3*NW + 17)])+',') #qx
+        f.write(str(x_sol[9+i*(3*NW + 17)])+',') #qy
+        f.write(str(x_sol[10+i*(3*NW + 17)])+',') #qz
+        f.write(str(x_sol[5+i*(3*NW + 17)])+',') #vx
+        f.write(str(x_sol[6+i*(3*NW + 17)])+',') #vy
+        f.write(str(x_sol[7+i*(3*NW + 17)])+',') #vz  
+        f.write(str(x_sol[11+i*(3*NW + 17)])+',') #wx
+        f.write(str(x_sol[12+i*(3*NW + 17)])+',') #wy
+        f.write(str(x_sol[13+i*(3*NW + 17)])+',') #wz
+        f.write(str(x_sol[5+i*(3*NW + 17)])+',')
+        f.write(str(x_sol[6+i*(3*NW + 17)])+',')  
+        f.write(str(x_sol[7+i*(3*NW + 17)])+',')  
+        f.write(str(x_sol[5+i*(3*NW + 17)])+',')
+        f.write(str(x_sol[6+i*(3*NW + 17)])+',')  
+        f.write(str(x_sol[7+i*(3*NW + 17)])+',')  
+        f.write(str(x_sol[14+i*(3*NW + 17)])+',')  
+        f.write(str(x_sol[15+i*(3*NW + 17)])+',')
+        f.write(str(x_sol[16+i*(3*NW + 17)])+',')  
+        f.write(str(x_sol[17+i*(3*NW + 17)])+',')  
+        f.write(str(x_sol[18+i*(3*NW + 17)])+',')  
+        f.write(str(x_sol[19+i*(3*NW + 17)]))  
+
+        f.write('\n')
 
     # print(s_x)
     # print(t_x)
